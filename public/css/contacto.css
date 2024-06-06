@@ -1,0 +1,96 @@
+
+/*9 - CSS Seccion 6 - Contacto*/
+.contacto{
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-color: var(--gris_claro);
+    border: none;
+    width: 90%;
+}
+
+
+.contacto h1  {
+    color: var(--lila_oscuro);
+    font-size: 2vw;
+    padding: 0px 5vw 0px 5vw;
+}
+
+.contacto h3 {
+    color: var(--lila_claro);
+    font-size: 1vw;
+    padding: 0px 5vw 0px 5vw;
+}
+
+.formContainer {
+    
+    margin-top: 2vw;
+    display: flex;
+}
+.contactForm {
+
+    width: 40vw;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: var(--gris_oscuro);
+  }
+  
+  label {
+    display: block;
+    margin-bottom: 1px;
+    color: var(--lila_claro);
+    font-size: 15px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="tel"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+    color: var(--lila_claro);
+    border-radius: 5px;
+  }
+  
+  input[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 3px;
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+  }
+  
+  input[type="submit"]:hover {
+    background-color: #45a049;
+  }
+
+.contactForm select {
+    display: inline;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1vw;
+    background-color: var(--ColorBackgroundGris);
+    padding: 0.2vw;
+}
+
+.contactForm input[type="checkbox"],
+.contactForm input[type="checkbox"] + label {
+    display: inline; 
+    font-size: 1vw;
+}
+
+.imgContacto {
+    /*border: #1395BA 0.5vw solid;*/
+    width: 50vw;
+    align-self: self-end;
+}
+

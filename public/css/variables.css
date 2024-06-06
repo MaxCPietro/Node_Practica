@@ -1,0 +1,12 @@
+:root {
+  font-family: "Segoe UI", "Montserrat", 'Quicksand', sans-serif;
+
+  --colorPrimario: #f18624;
+  --colorsecundario: #1395ba;
+  --colorTerciario: #ffe184;
+  --lila_claro: #4d4c73;
+  --lila_oscuro: #2b2d4a;
+  --oro: #d9c771;
+  --gris_claro: #cccccc;
+  --gris: #bfbfbf;
+}

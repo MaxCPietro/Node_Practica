@@ -1,0 +1,94 @@
+
+/*5 - CSS Seccion 4 - Nosotros*/
+.quienessomos {
+    display: flex;
+    flex-direction: column;
+    border: none;
+    width: 90%;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 0px 5vw 0px 5vw;
+
+}
+
+
+  .titulo {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+ 
+.titulo h1{
+
+
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 30px;
+    color: var(--lila_claro);
+  
+}
+
+.itemDuenia  img{
+ 
+
+   height: 600px;
+    object-fit: cover;
+    margin-right: 2vw;
+    margin-left: 2vw;
+    border-radius: 10px 30px 10px 30px;
+}
+
+.contenedorNosotros {
+    
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    font-style: italic;
+}
+.quienessomos p {
+    
+    font-family: 'Montserrat', Verdana, sans-serif;
+    font-optical-sizing: auto;
+    font-size: 20px;
+    font-weight: 200;
+    color: var(--lila_claro); /* Color oscuro*/
+    text-align: center;
+    align-self: center;
+    padding: 1vw;
+    max-width: 100%;
+    justify-content: center;
+}
+
+/*5.1 - CSS Seccion 4 - Nosotros - Media Query*/
+@media only screen and (max-width: 700px) {
+    .contenedorNosotros {
+        flex-direction: column;
+        align-content: center;
+        margin: 10%;
+        width: 80%;
+    }
+    .contenedorNosotros img {
+        width: 100%;
+    }
+    .contenedorNosotros ul{
+        width: 100%;
+    }
+    .contenedorNosotros ul li {
+        font-size: 4vw;
+    }
+    .itemDuenia  img{
+ 
+
+        height: 400px;
+    }
+    .itemDuenia {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        width: 100%
+    }
+}

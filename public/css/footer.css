@@ -1,0 +1,54 @@
+/* Estilos para el footer */
+footer {
+    background-color:var(--gris_claro); 
+    color: var(--lila_claro);
+    padding: 50px 0;
+}
+
+footer h4 {
+    color: var(--lila_oscuro);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+footer p {
+    margin-bottom: 10px;
+    color: var(--lila_claro);
+}
+
+footer form input[type="email"] {
+    width: 70%;
+    padding: 10px;
+    border: 1px solid #ced4da;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+.social-buttons a i {
+    color: var(--lila_claro);
+    font-size: 24px; 
+}
+.newsletter-form button.btn-primary {
+    background-color: var(--lila_claro);
+    color: #cccccc;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.sub-footer {
+    background-color: #cccccc;
+    color: #343a40;
+    padding: 20px 0;
+    text-align: center;
+}
+
+.sub-footer p {
+    margin: 0;
+}
+
+/* Estilos para pantallas más pequeñas */
+@media (max-width: 768px) {
+    footer form input[type="email"] {
+        width: 100%;
+    }
+}

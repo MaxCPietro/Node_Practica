@@ -1,0 +1,42 @@
+/*9 - CSS Seccion 5 - Ubicacion*/
+
+.ubicacion {
+    border: none;
+}
+.ubicacion h1  {
+    color: var(--lila_oscuro);
+    font-size: 2vw;
+    padding: 0px 5vw 0px 5vw;
+}
+
+.ubicacion h3 {
+    color: var(--lila_claro);
+    font-size: 1vw;
+    padding: 0px 5vw 0px 5vw;
+}
+
+.mapaContainer {
+    margin: 0px 5vw 0px 5vw;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content:center;
+    align-items: center;
+    align-content: center;
+    gap: 10px;
+    padding: 3vw;
+    
+}
+.mapa {
+    /*border : 0.3vw solid green;*/
+    width: 20vw;
+    height: 20vw;
+    border-radius: 10px 30px 10px 30px;
+}
+
+.mapaMendoza {
+    /*border : 0.3vw solid orange;*/
+    align-self: flex-start;
+    width: 20vw;
+    height: 20vw;
+    border-radius: 10px 30px 10px 30px;         
+}

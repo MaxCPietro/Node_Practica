@@ -1,0 +1,110 @@
+/*0 - CSS que aplica a todo*/
+
+
+/*Definicion de Variables CSS*/
+
+
+/*1 - CSS etiquetas HTML que aplican a toda la página*/
+
+.seccion1 h1 {
+    font-family: 'Quicksand', sans-serif;
+    font-optical-sizing: auto;
+    font-size: 2.5em;
+    font-weight: 300;
+    text-align: left;
+    padding: 1vw;
+    /*border: orange 0.5vw solid;*/
+    margin: 0vw;
+}
+
+.seccion1 h2 {
+    font-family: 'Segoe UI', Tahoma, Verdana, sans-serif;
+    font-size: 2vw;
+    border: lime 0.5vw solid;
+    margin: 0vw;
+}
+/*h3 {
+    
+    font-size: 1.5vw;
+    font-weight: bold;
+    color: var(--lila_oscuro);
+    
+}
+h4 {
+    font-size: 1vw;
+    font-weight: bold;
+    color: var(--lila_oscuro);
+    font-style: italic;
+}
+
+strong {
+    font-weight: bold;
+}*/
+
+/*2 - Clases que aplican a toda la página*/
+
+
+
+/*4 - CSS SECCION 1 - Carousel*/
+.seccion1{
+    /*border: black 0.5vw solid;*/
+    overflow-x: hidden;
+    /*height: 60vh;*/
+}
+
+.carrusel {
+    /*border: red 0.5vw solid;*/
+    width: 100%;
+    max-width: 120em;
+}
+
+.contenedorImagenes {
+    /*border: green 0.5vw solid;*/
+    width: 400%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-items: flex-start;
+    align-items: center;
+
+    animation: banner 8s ease infinite;
+    /*transform: translateX(-25%);*/
+}
+
+@keyframes banner {
+    0%  { transform: translateX(0%);}
+    25% { transform: translateX(-25%);}
+    50% { transform: translateX(-50%);}
+    75% { transform: translateX(-75%);}
+    100% { transform: translateX(0%);} 
+}
+
+.carrusel img {
+    /*border: yellow 0.5vw solid;*/
+    width: calc(100%/4);
+    height: 70vh;
+    padding: 1vw;
+}
+
+/*.puntos {
+    border: blue 0.5vw solid;
+    width: 100%;
+    padding: 1em;
+    margin: 0%;
+
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.punto {
+    border: lime 0.5vw solid;
+    border-radius: 50px;
+    width: 2em;
+    height: 2em;
+    margin: 1em;
+}*/
+
+
+
