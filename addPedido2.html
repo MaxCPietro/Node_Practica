@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+        <!--JS Scripts-->
+        <script src="../js/addPeddo.js"></script>
+</head>
+<body>
+    <form class="w-50 ,mx-auto mt-5 mb-5">
+        <div class="form-group">
+            <label for="formGroupExampleInput">Product Id</label>
+            <input type="number" class="form-control" id="ids"/>
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput">Product Name</label>
+            <input type="text" class="form-control" id="product"/>
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Price</label>
+            <input type="number" class="form-control" id="prc"/>
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Quantity</label>
+            <input type="number" class="form-control" id="qty" onchange="calculate()">
+        </div>
+        <div class="form-group">
+            <label for="formGroupExampleInput2">Amount</label>
+            <input type="number" class="form-control" id="amnt" disabled/>
+        </div>
+        <button type="button" class="btn btn-warninf m-2" onclick="addData()">Add</button>
+<br><hr>
+        <table bgcolor="lightblue" width="100%">
+            <tr>
+                <td>
+                    <h1>ORDEN DE PEDIDO</h1>
+                </td>
+                <td width="100"></td>
+                <td>11-5781-9412 <br>
+                    maxcorrea@gmail.com
+                </td>
+                <td>
+                    Campana 1202 4b<br>
+                    CABA, Buenos Aires
+                </td>
+            </tr>
+        </table>
+        <br>
+
+    <table bgcolor="pink" width="100%">
+        <tr>
+            <td width="5%"> </td>
+            <td width="500">Billet to</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;Invoice Numbre</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;</td>
+            <td width="200">Invoice Total</td>
+        </tr>
+        
+        <tr>
+            <td width="5%"> </td>
+            <td width="500">Client Number</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;10001</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;</td>
+            <td width="200" id="total-amount"><b></b></td>
+        </tr>
+
+        <tr>
+            <td width="5%"> </td>
+            <td width="500">1 Client Adress</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td width="5%"> </td>
+            <td width="500">City, State Country</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;Date of Issue</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td width="5%"> </td>
+            <td width="500">ZIP CODE</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;10/07/14</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;</td>
+            <td width="200">&nbsp;&nbsp;&nbsp;</td>
+        </tr>
+    </table>
+
+    <hr/>
+    <table class="table">
+        <thead id="tablehead">
+            <tr>
+                <th id="ids">ID</th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody id="newtr">
+
+        </tbody>
+    </table>
+
+    <table class="table">
+        <tr>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%">Subtotal:</td>
+            <td width="20%" id="subtotal-amount"></td>
+        </tr>
+        <tr>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%">IVA:</td>
+            <td width="20%">21%</td>
+        </tr>
+
+        <tr>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%"></td>
+            <td width="20%">Total Amount (RS)</td>
+            <td width="20%" id="total"></td>
+        </tr>
+
+    </table>
+</body>
+</html>
