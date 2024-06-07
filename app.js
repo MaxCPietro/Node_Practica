@@ -2,22 +2,22 @@
 const express = require('express');
 const app = express(); //equivale a crear el servidor
 const port = 3000 || 8080 || process.env.PORT;
+const override = require('method-override');
+const rutas = require('./src/routes/mainRoutes');
 
-app.use(express.static(__dirname + '/public'));
+//Midelwares
+app.use(express.static(__dirname + '/public')); //llamo a la página principal
+app.use(express.urlencoded({ extended: true }));
+app.use(override('_metodo'));
 
-//Definimos las rutas. La parte del método y la parte de la ruta
-/*app.get('/', (req, res) => {
-    res.sendFile('/public/addPedido.html', {root: __dirname});
-});*/
+app.use('/', rutas);
 
-app.get('/rutaDinamica', (req, res) => {
-    res.sendFile('/src/views/dinamico1.html', {root: __dirname});;
-});
+app.use((req, res, next) => {
+    res.status(404).send('recurso no encontrado 404');
+})
 
-app.get('/rutaDinamica2', (req, res) => {
-    res.sendFile('/src/views/dinamico2.html', {root: __dirname});;
-});
-
+/*abro el puerto de escucha*/
 app.listen(port, () => {   
     console.log(`Example app listening at http://localhost:${port}`);
 })
+
