@@ -5,7 +5,7 @@ const port = 3000 || 8080 || process.env.PORT;
 const override = require('method-override');
 const rutas = require('./src/routes/mainRoutes');
 
-//Midelwares
+//Middlewares
 app.use(express.static(__dirname + '/public')); //llamo a la página principal
 app.use(express.urlencoded({ extended: true }));
 app.use(override('_metodo'));

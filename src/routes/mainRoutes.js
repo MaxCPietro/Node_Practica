@@ -1,30 +1,25 @@
 const express = require('express');
 const router = express.Router();
-const path = require('path');
+//const path = require('path');
+const controladores = require('../controllers/mainController');
 
 /*Peticiones GET*/
-router.get('/rutaDinamica', (req, res) => {
-    res.sendFile(path.resolve(__dirname + './../views/dinamico1.html'));;
-});
+router.get('/listado',controladores.getListado);
 
-router.get('/rutaDinamica2', (req, res) => {
+/*router.get('/rutaDinamica2', (req, res) => {
     res.sendFile(path.resolve(__dirname + './../views/dinamico2.html'));;
-});
+});*/
 
 /*PETICIONES POST*/
-router.post('/rutaDinamica2', (req, res) => {
-    res.send(`Se hizo algo con el POST ${req.body.nombre}`);
-});
+router.post('/listado',controladores.crearRegistro);
 
 /*PETICIONES PUT(update*/
 
-router.put('/rutaDinamica2', (req, res) => {
-    res.send(`Se actualizó con el PUT ${req.body.nombreUpdate}`);
-});
+router.put('/modificar/:id', controladores.getModificar);
+
+router.put('/modificar',controladores.actualizar );
 
 /*PETICIONES DELETE*/
-router.delete('/rutaDinamica2', (req, res) => {
-    res.send(`Se elimino con el DELETE ${req.body.delete}`);
-});
+router.delete('/listado', controladores.eliminar);
 
 module.exports = router;
