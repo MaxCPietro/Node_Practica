@@ -1,0 +1,176 @@
+<main>
+    <hr />
+    <h1>Ir al listado</h1>
+    <h2><a href="../html/listado.html">Listado</a></h2>
+    <hr />
+    <h1>Nueva Orden de Pedido</h1>
+    <div class="containerMain">
+      <p align="center">
+        Por favor, Ingrese un item para agregar a la orden de pedido:
+      </p>
+      <br />
+      <table class="Item">
+        <thead>
+          <tr>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Total</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="prPivot">
+            <td>
+              <input type="text" id="producto" placeholder="Ítem a agregar" />
+            </td>
+            <td>
+              <input
+                type="number"
+                id="CnPivot"
+                onchange="calcular()"
+                value="0"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                id="PrPivot"
+                onchange="calcular()"
+                value="0"
+              />
+            </td>
+            <td>
+              <input
+                type="number"
+                class="form-control"
+                id="TotalItem"
+                disabled
+              />
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button type="button" class="btnOrden" onclick="agregarItem()">
+        Agregar Item
+      </button>
+    </div>
+    <div class="containerMain">
+      <!--Encabezado de la Orden-->
+      <div class="encabezadoOrden">
+        <h3>
+          Orden nro:
+          <input type="number" name="orden_id" value="67890" />
+        </h3>
+        <h3>
+          Fecha de Orden:
+          <input type="date" name="fecha_orden" value="2024-06-03" />
+        </h3>
+        <h3>
+          Vendedor:
+          <input type="text" name="orden_vendedor" value="Ismael Castro" />
+          <label for="telefonoVendedor"
+            >Telefono de Contacto Vendedor:
+          </label>
+          <input type="tel" name="telefonoVendedor" value="123456789" />
+        </h3>
+      </div>
+
+      <form action="/submit_order" method="post">
+        <div class="section">
+          <h2>Datos del Cliente</h2>
+          <table class="details">
+            <tr>
+              <th>Cliente</th>
+              <td>
+                <input
+                  width="100%"
+                  type="text"
+                  name="cliente_nombre"
+                  value="Juan Pérez"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>CUIT</th>
+              <td>
+                <input
+                  type="number"
+                  name="cliente_cuit"
+                  value="30707163042"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Dirección</th>
+              <td>
+                <input
+                  type="text"
+                  name="cliente_direccion"
+                  value="Calle Falsa 123, Ciudad, País"
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <th>Contacto del cliente</th>
+              <td>
+                <input
+                  type="text"
+                  name="cliente_contacto"
+                  value="Calle Falsa 123, Ciudad, País"
+                />
+              </td>
+            </tr>
+
+            <tr>
+              <th>Teléfono</th>
+              <td>
+                <input
+                  type="tel"
+                  name="cliente_telefono"
+                  value="+123 456 7890"
+                />
+              </td>
+            </tr>
+            <tr>
+              <th>Email</th>
+              <td>
+                <input
+                  type="email"
+                  name="cliente_email"
+                  value="juan.perez@example.com"
+                />
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="section">
+          <h2>Productos</h2>
+          <table class="products">
+            <thead>
+              <tr>
+                <th>Producto</th>
+                <th>Cantidad</th>
+                <th>Precio Unitario</th>
+                <th>Total</th>
+              </tr>
+            </thead>
+            <tbody id="newtr"></tbody>
+            <tfoot bgcolor="#f2f2f2">
+              <tr>
+                <td colspan="3" style="text-align: right">
+                  <strong>Total:</strong>
+                </td>
+                <td><input type="number" id="total" disabled /></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <div class="button-container">
+          <button class="btnOrden" type="submit">Confirmar Orden</button>
+        </div>
+      </form>
+    </div>
+  </main>

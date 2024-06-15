@@ -3,12 +3,19 @@ const router = express.Router();
 //const path = require('path');
 const controladores = require('../controllers/mainController');
 
+router.get('/', controladores.renderHome);
+router.get('/clientes', controladores.renderClientes);
+router.get('/contacto', controladores.renderContacto);
+
+router.get('/productos', controladores.renderProductos);
+router.get('/quienessomos', controladores.renderQuienessomos); 
+router.get('/ubicacion', controladores.renderUbicacion);
+router.get('/gspedidos', controladores.rendergspedidos)
+
 /*Peticiones GET*/
 router.get('/listado',controladores.getListado);
 
-/*router.get('/rutaDinamica2', (req, res) => {
-    res.sendFile(path.resolve(__dirname + './../views/dinamico2.html'));;
-});*/
+
 
 /*PETICIONES POST*/
 router.post('/listado',controladores.crearRegistro);

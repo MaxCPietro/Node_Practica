@@ -1,0 +1,27 @@
+.listado-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    text-align: center;
+  
+  }
+  
+  .listado-content {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .producto {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  .producto div {
+    flex: 1;
+    text-align: center;
+  }
+  
