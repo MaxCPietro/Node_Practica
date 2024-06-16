@@ -1,7 +1,23 @@
 <!DOCTYPE html>
 <html lang="es">
   <%- include("partials/head") %>
+  <style>
+    .listado-header {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      background-color: #f1f1f1;
+    }
 
+    .listado-content {
+      border: #f1f1f1 solid 1px;
+    }
+
+    .producto {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      border:#f1f1f1 solid 1px;
+    } 
+  </style>
   <body>
     <%- include("partials/header") %>
     <main>
@@ -24,6 +40,7 @@
         <h4>Precio</h4>
         <h4>Descripción</h4>
         <h4>Stock</h4>
+        <h4>Acciones</h4>
       </div>
       <div class="listado-content">
         <% productos.forEach(producto => { %>
@@ -32,6 +49,7 @@
             <div><%= producto.precio %></div>
             <div><%= producto.descripcion %></div>
             <div><%= producto.stock %></div>
+
           </div>
         <% }) %>
       </div>
