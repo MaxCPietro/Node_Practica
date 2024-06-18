@@ -26,5 +26,8 @@ router.get('/customers',controladores.renderAdminCliente);
 router.post('/customers',controladores.crearCliente);
 router.put('/customers/:id',controladores.actualizarCliente);
 router.delete('/customers/:id',controladores.eliminarCliente);
+//login
+router.post('/login', controladores.login);
+router.get('/logout', controladores.logout)
 
 module.exports = router;
