@@ -20,7 +20,7 @@ router.delete('/users/:id', controladores.eliminarUsuario);
 router.get('/adminProduct',controladores.renderAdminProducto);
 router.post('products',controladores.crearProducto);
 router.put('/products/:id',controladores.actualizarProducto);
-router.delete('products/:id',controladores.eliminarProducto);
+router.delete('/products/:id',controladores.eliminarProducto);
 //admin crud clientes
 router.get('/customers',controladores.renderAdminCliente);  
 router.post('/customers',controladores.crearCliente);

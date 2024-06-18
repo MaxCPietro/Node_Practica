@@ -34,8 +34,7 @@ module.exports = {
 			   INNER JOIN rol r ON v.rol_id = r.id
 			  `);
 	const [roles]	= await conn.query(`select * From rol`)	  
-	console.log(users)
-	console.log(roles)
+
     res.render("adminUser", { users, rol: roles});
   },
   crearUsuario: async (req, res) => {
@@ -74,7 +73,7 @@ module.exports = {
   renderAdminProducto: async (req, res) => {
     try {
       const [products] = await conn.query(`SELECT * FROM Productos`);
-      console.log(products)
+   
       res.render("adminProduct", { products });
     } catch (error) {
       throw error;
