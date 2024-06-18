@@ -8,6 +8,9 @@
 @import url("./clientes.css");
 @import url("./ubicacion.css");
 @import url("./gspedido.css");
+@import url("./adminUser.css");
+@import url("./adminProduct.css");
+
 * {
     margin: 0;
     padding: 0;

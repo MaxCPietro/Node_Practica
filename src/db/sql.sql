@@ -1,23 +1,24 @@
 CREATE DATABASE IF NOT EXISTS VinosDB;
 USE VinosDB;
-
 -- Tabla de Vendedores
+CREATE TABLE rol (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    rol VARCHAR(255) NOT NULL  
+);
 CREATE TABLE Vendedores (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    contraseña VARCHAR(255) NOT NULL,
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    password VARCHAR(255) NOT NULL,
+    rol_id INT NOT NULL,  
+    FOREIGN KEY (rol_id) REFERENCES rol(id)
 );
 
 -- Tabla de Clientes
 CREATE TABLE Clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
-    email VARCHAR(255) NOT NULL UNIQUE,
     teléfono VARCHAR(50),
-    dirección VARCHAR(255),
-    fecha_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    dirección VARCHAR(255)
 );
 
 -- Tabla de Productos
@@ -26,8 +27,7 @@ CREATE TABLE Productos (
     nombre VARCHAR(255) NOT NULL,
     descripción TEXT,
     precio DECIMAL(10, 2) NOT NULL,
-    stock INT NOT NULL,
-    fecha_agregado TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    stock INT NOT NULL
 );
 
 -- Tabla de Pedidos
@@ -52,3 +52,4 @@ CREATE TABLE DetallePedidos (
     FOREIGN KEY (pedido_id) REFERENCES Pedidos(id),
     FOREIGN KEY (producto_id) REFERENCES Productos(id)
 );
+

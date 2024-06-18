@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+  <%- include("partials/head") %>
+
+  <body>
+    <%- include("partials/header") %>
+
+    <main>
+      <div class="container">
+        <h2 class="text-center mt-5">Gestión de Productos</h2>
+        <div class="container">
+          <form id="newProductForm" action="/products" method="POST">
+            <div class="formCrear">
+              <div class="col-md-4 mb-3">
+                <label for="newProductName" class="form-label">Nombre</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="newProductName"
+                  name="nombre"
+                  required
+                />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="newProductDescription" class="form-label">Descripción</label>
+                <textarea
+                  class="form-control"
+                  id="newProductDescription"
+                  name="descripcion"
+                  required
+                ></textarea>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="newProductPrice" class="form-label">Precio</label>
+                <input
+                  type="number"
+                  step="0.01"
+                  class="form-control"
+                  id="newProductPrice"
+                  name="precio"
+                  required
+                />
+              </div>
+              <div class="col-md-4 mb-3">
+                <label for="newProductStock" class="form-label">Stock</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="newProductStock"
+                  name="stock"
+                  required
+                />
+              </div>
+              <button type="submit" class="btn btn-primary">Crear</button>
+            </div>
+          </form>
+        </div>
+        <table class="table table-striped mt-3">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Precio</th>
+              <th>Stock</th>
+              <th>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% products.forEach(product => { %>
+            <tr>
+              <td><%= product.nombre %></td>
+              <td><%= product.descripcion %></td>
+              <td><%= product.precio %></td>
+              <td><%= product.stock %></td>
+              <td>
+                <button
+                  class="btn btn-warning btn-sm"
+                  onclick="editProduct('<%= product.id %>', '<%= product.nombre %>', '<%= product.descripcion %>', '<%= product.precio %>', '<%= product.stock %>')"
+                >
+                  Modificar
+                </button>
+                <form
+                  action="/products/<%= product.id %>?_method=DELETE"
+                  method="POST"
+                  style="display: inline"
+                >
+                  <button type="submit" class="btn btn-danger btn-sm">
+                    Borrar
+                  </button>
+                </form>
+              </td>
+            </tr>
+            <% }) %>
+          </tbody>
+        </table>
+      </div>
+
+      <div
+        class="modal fade"
+        id="editProductModal"
+        tabindex="-1"
+        aria-labelledby="editProductModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editProductModalLabel">
+                Modificar Producto
+              </h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              <form id="editProductForm" action="/products" method="POST">
+                <input type="hidden" id="productId" name="id" />
+                <div class="mb-3">
+                  <label for="productName" class="form-label">Nombre</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="productName"
+                    name="nombre"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="productDescription" class="form-label">Descripción</label>
+                  <textarea
+                    class="form-control"
+                    id="productDescription"
+                    name="descripcion"
+                    required
+                  ></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="productPrice" class="form-label">Precio</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    class="form-control"
+                    id="productPrice"
+                    name="precio"
+                    required
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="productStock" class="form-label">Stock</label>
+                  <input
+                    type="number"
+                    class="form-control"
+                    id="productStock"
+                    name="stock"
+                    required
+                  />
+                </div>
+                <button type="submit" class="btn btn-primary">
+                  Guardar Cambios
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <%- include("partials/footer") %>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+      integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js"
+      integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      function editProduct(id, nombre, descripcion, precio, stock) {
+        document.getElementById("productId").value = id;
+        document.getElementById("productName").value = nombre;
+        document.getElementById("productDescription").value = descripcion;
+        document.getElementById("productPrice").value = precio;
+        document.getElementById("productStock").value = stock;
+        document.getElementById("editProductForm").action =
+          "/products/" + id + "?_method=PUT";
+        var editProductModal = new bootstrap.Modal(
+          document.getElementById("editProductModal")
+        );
+        editProductModal.show();
+      }
+    </script>
+  </body>
+</html>

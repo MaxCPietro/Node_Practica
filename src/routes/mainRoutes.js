@@ -10,23 +10,21 @@ router.get('/contacto', controladores.renderContacto);
 router.get('/productos', controladores.renderProductos);
 router.get('/quienessomos', controladores.renderQuienessomos); 
 router.get('/ubicacion', controladores.renderUbicacion);
-router.get('/gspedidos', controladores.rendergspedidos)
-
-/*Peticiones GET*/
-router.get('/listado',controladores.getListado);
-
-
-
-/*PETICIONES POST*/
-router.post('/listado',controladores.crearRegistro);
-
-/*PETICIONES PUT(update*/
-
-router.put('/modificar/:id', controladores.getModificar);
-
-router.put('/modificar',controladores.actualizar );
-
-/*PETICIONES DELETE*/
-router.delete('/listado', controladores.eliminar);
+router.get('/login', controladores.renderLogin);
+// admin crud vendedores
+router.get('/adminuser', controladores.renderAdminUser);
+router.post('/users', controladores.crearUsuario);
+router.put('/users/:id', controladores.actualizarUsuario);
+router.delete('/users/:id', controladores.eliminarUsuario);
+//admin   crud productos
+router.get('/adminProduct',controladores.renderAdminProducto);
+router.post('products',controladores.crearProducto);
+router.put('/products/:id',controladores.actualizarProducto);
+router.delete('products/:id',controladores.eliminarProducto);
+//admin crud clientes
+router.get('/customers',controladores.renderAdminCliente);  
+router.post('/customers',controladores.crearCliente);
+router.put('/customers/:id',controladores.actualizarCliente);
+router.delete('/customers/:id',controladores.eliminarCliente);
 
 module.exports = router;
