@@ -1,8 +1,7 @@
 const { conn } = require("../db/dbconnect");
-const bcrypt = require('bcrypt');
+
 require('dotenv').config();
-const saltRounds = 10
-const secretHash = process.env.SECRETHASH
+
 
 module.exports = {
   renderHome: (req, res) => {
@@ -38,10 +37,10 @@ module.exports = {
     res.render("adminUser", { users, rol: roles});
   },
   crearUsuario: async (req, res) => {
-	const hashedPassword = await bcrypt.hash(secretHash + req.body.password, saltRounds);
+	
     [nombre, password, rol] = [
       req.body.nombre,
-      hashedPassword,
+      req.body.password,
       req.body.rol,
     ];
     const sql = `INSERT INTO Vendedores (nombre,  password, rol_id) VALUES (?,?,?);`;
@@ -53,11 +52,11 @@ module.exports = {
 	res.redirect("/adminUser");
   },
   actualizarUsuario: async (req, res) => {	
-	const hashedPassword = await bcrypt.hash(secretHash + req.body.password, saltRounds);
+	
 	const sql = `UPDATE Vendedores SET nombre = ?, password = ?, rol_id = ? WHERE id = ?;`;
 	const actualizado = await conn.query(sql, [
 		req.body.nombre,
-		hashedPassword,
+		req.body.password,
 		req.body.rol,
 		req.params.id,
 	  ]);
