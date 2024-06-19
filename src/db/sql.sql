@@ -17,7 +17,7 @@ CREATE TABLE Vendedores (
 CREATE TABLE Clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
-    teléfono VARCHAR(50),
+    telefono VARCHAR(50),
     dirección VARCHAR(255)
 );
 
@@ -25,7 +25,7 @@ CREATE TABLE Clientes (
 CREATE TABLE Productos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
-    descripción TEXT,
+    descripcion TEXT,
     precio DECIMAL(10, 2) NOT NULL,
     stock INT NOT NULL
 );

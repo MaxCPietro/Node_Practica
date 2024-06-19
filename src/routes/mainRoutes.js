@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 //const path = require('path');
 const controladores = require('../controllers/mainController');
+const middlewares = require( '../middleware/indexMiddleware');
 
 router.get('/', controladores.renderHome);
 router.get('/clientes', controladores.renderClientes);
@@ -12,22 +13,24 @@ router.get('/quienessomos', controladores.renderQuienessomos);
 router.get('/ubicacion', controladores.renderUbicacion);
 router.get('/login', controladores.renderLogin);
 // admin crud vendedores
-router.get('/adminuser', controladores.renderAdminUser);
-router.post('/users', controladores.crearUsuario);
-router.put('/users/:id', controladores.actualizarUsuario);
-router.delete('/users/:id', controladores.eliminarUsuario);
+router.get('/adminuser', middlewares.checkAdmin,controladores.renderAdminUser);
+router.post('/users', middlewares.checkAdmin,controladores.crearUsuario);
+router.put('/users/:id', middlewares.checkAdmin,controladores.actualizarUsuario);
+router.delete('/users/:id', middlewares.checkAdmin,controladores.eliminarUsuario);
 //admin   crud productos
-router.get('/adminProduct',controladores.renderAdminProducto);
-router.post('products',controladores.crearProducto);
-router.put('/products/:id',controladores.actualizarProducto);
-router.delete('/products/:id',controladores.eliminarProducto);
+router.get('/adminProduct',middlewares.checkAdmin, controladores.renderAdminProducto);
+router.post('products',middlewares.checkAdmin,controladores.crearProducto);
+router.put('/products/:id',middlewares.checkAdmin,controladores.actualizarProducto);
+router.delete('/products/:id',middlewares.checkAdmin,controladores.eliminarProducto);
 //admin crud clientes
-router.get('/customers',controladores.renderAdminCliente);  
-router.post('/customers',controladores.crearCliente);
-router.put('/customers/:id',controladores.actualizarCliente);
-router.delete('/customers/:id',controladores.eliminarCliente);
+router.get('/customers',middlewares.checkAdmin,controladores.renderAdminCliente);  
+router.post('/customers',middlewares.checkAdmin,controladores.crearCliente);
+router.put('/customers/:id',middlewares.checkAdmin,controladores.actualizarCliente);
+router.delete('/customers/:id',middlewares.checkAdmin,controladores.eliminarCliente);
 //login
 router.post('/login', controladores.login);
 router.get('/logout', controladores.logout)
-
+//ventas
+router.get('/neworder',middlewares.checkAuthenticated ,  controladores.renderNewOrder);
+router.post('/createorder',middlewares.checkAuthenticated ,  controladores.createOrder);
 module.exports = router;

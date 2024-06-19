@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+  <%- include("partials/head") %>
+  <body>
+    <%- include("partials/header") %>
+    <main class="container">
+      <h2 class="text-center mt-5">Crear Nuevo Pedido</h2>
+      <form id="orderForm" action="/createOrder" method="POST">
+        <div class="mb-3">
+          <label for="cliente_id" class="form-label">Seleccionar Cliente</label>
+          <select id="cliente_id" name="cliente_id" class="form-select" required>
+            <option value="">Seleccione un cliente</option>
+            <% clients.forEach(client => { %>
+              <option value="<%= client.id %>"><%= client.nombre %></option>
+            <% }); %>
+          </select>
+        </div>
+        <div class="mb-3">
+          <label for="productos" class="form-label">Seleccionar Productos</label>
+          <div id="productos" class="container">
+            <% products.forEach(product => { %>
+              <div class="row mb-2">
+                <div class="col-md-4">
+                  <input type="checkbox" name="productos" value="<%= product.id %>" data-precio="<%= product.precio %>"> <%= product.nombre %>
+                </div>
+                <div class="col-md-4">
+                  <input type="number" name="cantidad_<%= product.id %>" min="1" max="<%= product.stock %>" placeholder="Cantidad" class="form-control cantidad" disabled>
+                </div>
+                <div class="col-md-4">
+                  <span>Precio: $<%= product.precio %></span>
+                </div>
+              </div>
+            <% }); %>
+          </div>
+        </div>
+        <div class="mb-3">
+          <label for="totalProductos" class="form-label">Total de Productos</label>
+          <input type="text" id="totalProductos" class="form-control" readonly>
+        </div>
+        <div class="mb-3">
+          <label for="totalPrecio" class="form-label">Total Precio</label>
+          <input type="text" id="totalPrecio" class="form-control" readonly>
+        </div>
+        <input type="hidden" name="vendedor_id" value="<%= user.id %>">
+        <button type="submit" class="btn btn-primary">Crear Pedido</button>
+      </form>
+    </main>
+    <%- include("partials/footer") %>
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const checkboxes = document.querySelectorAll('#productos input[type="checkbox"]');
+        const cantidadInputs = document.querySelectorAll('.cantidad');
+
+        checkboxes.forEach(checkbox => {
+          checkbox.addEventListener('change', function() {
+            const cantidadInput = document.querySelector(`input[name="cantidad_${checkbox.value}"]`);
+            cantidadInput.disabled = !checkbox.checked;
+            if (!checkbox.checked) {
+              cantidadInput.value = '';
+            }
+            updateTotals();
+          });
+        });
+
+        cantidadInputs.forEach(input => {
+          input.addEventListener('input', updateTotals);
+        });
+
+        function updateTotals() {
+          let totalProductos = 0;
+          let totalPrecio = 0;
+          checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+              const cantidadInput = document.querySelector(`input[name="cantidad_${checkbox.value}"]`);
+              const cantidad = parseInt(cantidadInput.value) || 0;
+              const precioUnitario = parseFloat(checkbox.getAttribute('data-precio'));
+              totalProductos += cantidad;
+              totalPrecio += cantidad * precioUnitario;
+            }
+          });
+
+          document.getElementById('totalProductos').value = totalProductos;
+          document.getElementById('totalPrecio').value = totalPrecio.toFixed(2);
+        }
+
+        document.getElementById('orderForm').addEventListener('submit', function(event) {
+          const productosSeleccionados = [];
+          checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+              const producto_id = checkbox.value;
+              const cantidad = document.querySelector(`input[name="cantidad_${producto_id}"]`).value;
+              const precio_unitario = checkbox.getAttribute('data-precio');
+              productosSeleccionados.push({ producto_id, cantidad, precio_unitario });
+            }
+          });
+          const hiddenField = document.createElement('input');
+          hiddenField.type = 'hidden';
+          hiddenField.name = 'productos';
+          hiddenField.value = JSON.stringify(productosSeleccionados);
+          this.appendChild(hiddenField);
+        });
+      });
+    </script>
+  </body>
+</html>

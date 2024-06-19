@@ -1,5 +1,5 @@
 const { conn } = require("../db/dbconnect");
-const bcrypt = require("bcrypt");
+
 require("dotenv").config();
 const saltRounds = 10;
 const secretHash = process.env.SECRETHASH;
@@ -7,7 +7,7 @@ const secretHash = process.env.SECRETHASH;
 module.exports = {
   renderHome: (req, res) => {
     const user = req.session.user;
-    console.log(user);
+    
     res.render("home", { user });
   },
   renderClientes: (req, res) => {
@@ -42,19 +42,18 @@ module.exports = {
         `SELECT * FROM Vendedores WHERE nombre = ?`,
         [nombre]
       );
-      console.log(user);
+     
       if (user.length === 0) {
         return res.status(401).send("Nombre o contraseña incorrectos.");
       }
-      const validPassword = await bcrypt.compare(
-        secretHash + password,
-        user[0].password
-      );
-      console.log(validPassword);
+      const validPassword = (req.body.password === user[0].password)
+       
+    
+   
       if (!validPassword) {
         return res.status(401).send("Nombre o contraseña incorrectos.");
       }
-      console.log(user)
+     
       req.session.user = {
         id: user[0].id,
         nombre: user[0].nombre,
@@ -96,13 +95,10 @@ module.exports = {
   },
   crearUsuario: async (req, res) => {
     try {
-      const hashedPassword = await bcrypt.hash(
-        secretHash + req.body.password,
-        saltRounds
-      );
+      
       const [nombre, password, rol] = [
         req.body.nombre,
-        hashedPassword,
+        req.body.password,
         req.body.rol,
       ];
       const sql = `INSERT INTO Vendedores (nombre, password, rol_id) VALUES (?,?,?);`;
@@ -115,14 +111,11 @@ module.exports = {
   },
   actualizarUsuario: async (req, res) => {
     try {
-      const hashedPassword = await bcrypt.hash(
-        secretHash + req.body.password,
-        saltRounds
-      );
+      
       const sql = `UPDATE Vendedores SET nombre = ?, password = ?, rol_id = ? WHERE id = ?;`;
       await conn.query(sql, [
         req.body.nombre,
-        hashedPassword,
+        req.body.password,
         req.body.rol,
         req.params.id,
       ]);
@@ -248,4 +241,44 @@ module.exports = {
       res.status(500).send("Error al eliminar cliente");
     }
   },
+  // crud y render ventas
+  renderNewOrder: async (req, res) => {
+    try {
+      const [clients] = await conn.query(`SELECT id, nombre FROM Clientes`);
+      const [products] = await conn.query(`SELECT id, nombre, precio, stock FROM Productos`);
+      const user = req.session.user; // Obtener el ID del vendedor desde la sesión
+      res.render("newOrder", { clients, products, user });
+    } catch (error) {
+      console.error("Error al obtener datos:", error);
+      res.status(500).send("Error interno del servidor");
+    }
+  },
+
+  createOrder: async (req, res) => {
+    const { cliente_id, productos, vendedor_id } = req.body;
+    console.log(req.body)
+    let total = 0;
+
+    try {
+      // Crear el pedido
+      const [result] = await conn.query(`INSERT INTO Pedidos (cliente_id, vendedor_id, total) VALUES (?, ?, ?)`, [cliente_id, vendedor_id, total]);
+      const pedido_id = result.insertId;
+
+      // Crear detalles del pedido
+      for (const producto of JSON.parse(productos)) {
+        const { producto_id, cantidad, precio_unitario } = producto;
+        const subtotal = cantidad * precio_unitario;
+        total += subtotal;
+        await conn.query(`INSERT INTO DetallePedidos (pedido_id, producto_id, cantidad, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?)`, [pedido_id, producto_id, cantidad, precio_unitario, subtotal]);
+      }
+
+      // Actualizar el total del pedido
+      await conn.query(`UPDATE Pedidos SET total = ? WHERE id = ?`, [total, pedido_id]);
+
+      res.redirect("/orders");
+    } catch (error) {
+      console.error("Error al crear el pedido:", error);
+      res.status(500).send("Error interno del servidor");
+    }
+  }
 };
