@@ -18,7 +18,8 @@ CREATE TABLE Clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     telefono VARCHAR(50),
-    dirección VARCHAR(255)
+    direccion VARCHAR(255)
+    tipo_cliente VARCHAR(20) NOT NULL
 );
 
 -- Tabla de Productos
