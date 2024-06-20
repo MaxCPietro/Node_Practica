@@ -256,29 +256,80 @@ module.exports = {
 
   createOrder: async (req, res) => {
     const { cliente_id, productos, vendedor_id } = req.body;
-    console.log(req.body)
+   
     let total = 0;
 
     try {
-      // Crear el pedido
-      const [result] = await conn.query(`INSERT INTO Pedidos (cliente_id, vendedor_id, total) VALUES (?, ?, ?)`, [cliente_id, vendedor_id, total]);
-      const pedido_id = result.insertId;
+        // Crear el pedido
+        const [result] = await conn.query(
+            `INSERT INTO Pedidos (cliente_id, vendedor_id, total) VALUES (?, ?, ?)`, 
+            [cliente_id, vendedor_id, total]
+        );
+        const pedido_id = result.insertId;
 
-      // Crear detalles del pedido
-      for (const producto of JSON.parse(productos)) {
-        const { producto_id, cantidad, precio_unitario } = producto;
-        const subtotal = cantidad * precio_unitario;
-        total += subtotal;
-        await conn.query(`INSERT INTO DetallePedidos (pedido_id, producto_id, cantidad, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?)`, [pedido_id, producto_id, cantidad, precio_unitario, subtotal]);
-      }
+        // Filtrar el array 'productos' para obtener solo la cadena JSON
+        const productosJSON = productos.find(producto => producto.startsWith('[') && producto.endsWith(']'));
+        const productosArray = JSON.parse(productosJSON);
 
-      // Actualizar el total del pedido
-      await conn.query(`UPDATE Pedidos SET total = ? WHERE id = ?`, [total, pedido_id]);
+        // Crear detalles del pedido
+        for (const producto of productosArray) {
+            const { producto_id, cantidad, precio_unitario } = producto;
+            const subtotal = cantidad * precio_unitario;
+            total += subtotal;
 
-      res.redirect("/orders");
+            await conn.query(
+                `INSERT INTO DetallePedidos (pedido_id, producto_id, cantidad, precio_unitario, subtotal) VALUES (?, ?, ?, ?, ?)`, 
+                [pedido_id, producto_id, cantidad, precio_unitario, subtotal]
+            );
+        }
+
+        // Actualizar el total del pedido
+        await conn.query(`UPDATE Pedidos SET total = ? WHERE id = ?`, [total, pedido_id]);
+
+        res.redirect(`/pedidos${pedido_id}`);
     } catch (error) {
-      console.error("Error al crear el pedido:", error);
-      res.status(500).send("Error interno del servidor");
+        console.error("Error al crear el pedido:", error);
+        res.status(500).send("Error interno del servidor");
     }
+},
+// pedidos
+renderPedido: async (req, res) => {
+  const { pedido_id } = req.params;
+
+  try {
+      // Obtener los detalles del pedido
+      const [orderDetails] = await conn.query(
+          `SELECT dp.*, p.nombre AS nombre_producto
+     FROM DetallePedidos dp
+     JOIN Productos p ON dp.producto_id = p.id
+     WHERE dp.pedido_id = ?`, 
+    [pedido_id]
+      );
+
+      // Obtener el nombre del vendedor y los datos del cliente, incluyendo tipo_cliente
+      const [pedidoInfo] = await conn.query(
+          `SELECT p.total, c.nombre AS cliente_nombre, c.tipo_cliente, v.nombre AS vendedor_nombre
+           FROM Pedidos p
+           JOIN Clientes c ON p.cliente_id = c.id
+           JOIN Vendedores v ON p.vendedor_id = v.id
+           WHERE p.id = ?`, 
+          [pedido_id]
+      );
+
+      const user = req.session.user;
+      // Renderizar la vista con los detalles del pedido, nombre del vendedor y datos del cliente
+      res.render("orderDetails", { 
+          pedido_id, 
+          orderDetails, 
+          pedidoInfo: pedidoInfo[0] , user
+      });
+  } catch (error) {
+      console.error("Error al obtener los detalles del pedido:", error);
+      res.status(500).send("Error interno del servidor");
   }
+}
+
+
+
+
 };

@@ -33,4 +33,6 @@ router.get('/logout', controladores.logout)
 //ventas
 router.get('/neworder',middlewares.checkAuthenticated ,  controladores.renderNewOrder);
 router.post('/createorder',middlewares.checkAuthenticated ,  controladores.createOrder);
+//pedidos
+router.get('/pedidos:pedido_id',middlewares.checkAuthenticated ,  controladores.renderPedido);
 module.exports = router;

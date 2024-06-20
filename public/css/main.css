@@ -10,6 +10,7 @@
 @import url("./gspedido.css");
 @import url("./adminUser.css");
 @import url("./adminProduct.css");
+@import url("./orderDetails.css");
 
 * {
     margin: 0;

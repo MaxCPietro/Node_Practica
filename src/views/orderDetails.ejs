@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="es">
+  <%- include("partials/head") %>
+  <body>
+    <%- include("partials/header") %>
+    <main class="container">
+      <h2 class="text-center mt-5">Detalles del Pedido</h2>
+      <div class="mb-3">
+        <p><strong>Número de Pedido:</strong> <%= pedido_id %></p>
+        <p><strong>Cliente:</strong> <%= pedidoInfo.cliente_nombre %></p>
+        <p><strong>Tipo de Cliente:</strong> <%= pedidoInfo.tipo_cliente %></p>
+        <p><strong>Vendedor:</strong> <%= pedidoInfo.vendedor_nombre %></p>
+      </div>
+
+      <h3 class="text-center">Productos</h3>
+      <table class="table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Producto</th>
+            <th>Cantidad</th>
+            <th>Precio Unitario</th>
+            <th>Subtotal</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% orderDetails.forEach(function(producto) { %>
+          <tr>
+            <td><%= producto.producto_id %></td>
+            <td><%= producto.nombre_producto %></td>
+            <td><%= producto.cantidad %></td>
+            <td>$<%= producto.precio_unitario %></td>
+            <td>$<%= producto.subtotal %></td>
+          </tr>
+          <% }) %>
+        </tbody>
+      </table>
+      <p><strong>Total:</strong> $<%= pedidoInfo.total %></p>
+    </main>
+    <%- include("partials/footer") %>
+  </body>
+</html>
