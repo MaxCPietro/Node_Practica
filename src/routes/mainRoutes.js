@@ -51,16 +51,23 @@ router.get('/pedidos', async (req, res) => {
     }
 });
 
-//Ruta para borrar registros (DELETE)
 router.get('/delete/:id', async (req, res) => {
     const id = req.params.id;
+    console.log(id); // Verifica que el ID esté siendo recibido correctamente
     try {
-        const [results] = await conn.query('DELETE FROM Pedidos WHERE id = ?', [id]);
-        res.redirect('/');
+        // Eliminar los registros dependientes en DetallePedidos
+        await conn.query('DELETE FROM DetallePedidos WHERE pedido_id = ?', [id]);
+        
+        // Eliminar el registro en Pedidos
+        await conn.query('DELETE FROM Pedidos WHERE id = ?', [id]);
+        
+        // Redirigir a la lista de pedidos después de eliminar
+        res.redirect('/pedidos'); 
     } catch (err) {
         console.error('Error executing query:', err.message);
         res.status(500).send('Internal Server Error');
     }
 });
+
 
 module.exports = router;

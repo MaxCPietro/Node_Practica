@@ -42,18 +42,21 @@
           
           <% if (user && user.rol_id === 1) { %>
             <li class="nav-item">
-              <a class="nav-link" href="/adminuser">Usuarios</a>
+              <a style="color: goldenrod;" class="nav-link" href="/adminuser">Gs. Usuarios</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/adminProduct">Productos</a>
+              <a style="color: goldenrod;" class="nav-link" href="/adminProduct">Gs. Productos</a>
+            </li>
+            <li class="nav-item">
+              <a style="color: goldenrod;" class="nav-link" href="/adminCliente">Gs. Clientes</a>
             </li>
           <% } %>
           <% if (user && (user.rol_id === 1 || user.rol_id === 2)) { %>
             <li class="nav-item">
-              <a class="nav-link" href="/neworder">Venta</a>
+              <a style="color: goldenrod;" class="nav-link" href="/neworder">Gs. Ventas</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/pedidos">Pedidos</a>
+              <a style="color: goldenrod;" class="nav-link" href="/pedidos">Gs. Pedidos</a>
             </li>
           <% } %>
         </ul>

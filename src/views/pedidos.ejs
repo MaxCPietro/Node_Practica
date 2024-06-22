@@ -7,9 +7,9 @@
 
 <body>
     <%- include("partials/header") %>
-    <h1>Listado de Pedidos</h1>
-    <div style="border: blue 1px solid;" class="container">
-        <a href="./neworder" class="btn btn-outline-primary mt-4"><box-icon type='solid' name='plus-circle'></box-icon></a>
+    <h1 style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">Gestión de Pedidos</h1>
+    <div class="container">
+        <a href="./neworder" class="btn btn-outline-primary mt-4"><box-icon size='md' name='plus-circle'></box-icon></a>
         <table class="table table-bordered table-striped text-cemter mt-4">
             <thead>
                 <tr class="bg-primary text-white">
@@ -30,7 +30,7 @@
                         <td><%= user.fecha_pedido %></td>
                         <td>$ <%= user.total %></td>
                         <td>
-                            <a href="/edit/<%= user.id %>" class="btn btn-outline-warning"><box-icon type='solid' name='edit'></box-icon></a>
+                            <a href="/pedidos<%= user.id %>" class="btn btn-outline-warning"><box-icon type='solid' name='cart'></box-icon></a>
                             <a href="/delete/<%= user.id %>" class="btn btn-outline-danger"><box-icon type='solid' name='trash'></box-icon></a>
                         </td>
                     </tr>
