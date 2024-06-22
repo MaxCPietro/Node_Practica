@@ -3,6 +3,7 @@ const router = express.Router();
 //const path = require('path');
 const controladores = require('../controllers/mainController');
 const middlewares = require( '../middleware/indexMiddleware');
+const {conn}  = require("../db/dbconnect");
 
 router.get('/', controladores.renderHome);
 router.get('/clientes', controladores.renderClientes);
@@ -35,4 +36,30 @@ router.get('/neworder',middlewares.checkAuthenticated ,  controladores.renderNew
 router.post('/createorder',middlewares.checkAuthenticated ,  controladores.createOrder);
 //pedidos
 router.get('/pedidos:pedido_id',middlewares.checkAuthenticated ,  controladores.renderPedido);
+
+
+
+// Ruta para mostrar registros (GET)
+router.get('/pedidos', async (req, res) => {
+    try {
+        const [results] = await conn.query('SELECT Pedidos.id,Clientes.nombre AS cliente_id,Vendedores.nombre AS vendedor_id,Pedidos.fecha_pedido,Pedidos.total FROM Pedidos JOIN Clientes ON Pedidos.cliente_id = Clientes.id JOIN Vendedores ON Pedidos.vendedor_id = Vendedores.id;');
+        res.render('pedidos', { results: results });
+    } catch (err) {
+        console.error('Error executing query:', err.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+//Ruta para borrar registros (DELETE)
+router.get('/delete/:id', async (req, res) => {
+    const id = req.params.id;
+    try {
+        const [results] = await conn.query('DELETE FROM Pedidos WHERE id = ?', [id]);
+        res.redirect('/');
+    } catch (err) {
+        console.error('Error executing query:', err.message);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
 module.exports = router;
