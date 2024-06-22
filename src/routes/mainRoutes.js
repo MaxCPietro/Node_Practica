@@ -43,7 +43,8 @@ router.get('/pedidos:pedido_id',middlewares.checkAuthenticated ,  controladores.
 router.get('/pedidos', async (req, res) => {
     try {
         const [results] = await conn.query('SELECT Pedidos.id,Clientes.nombre AS cliente_id,Vendedores.nombre AS vendedor_id,Pedidos.fecha_pedido,Pedidos.total FROM Pedidos JOIN Clientes ON Pedidos.cliente_id = Clientes.id JOIN Vendedores ON Pedidos.vendedor_id = Vendedores.id;');
-        res.render('pedidos', { results: results });
+        const user = req.session.user;
+        res.render('pedidos', { results: results , user});
     } catch (err) {
         console.error('Error executing query:', err.message);
         res.status(500).send('Internal Server Error');
