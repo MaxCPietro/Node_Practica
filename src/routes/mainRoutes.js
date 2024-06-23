@@ -90,4 +90,8 @@ router.get('/cliente', async (req, res) => {
 router.get('/newCliente', (req, res) => {
     res.render('newCliente');
 })
+
+const crud = require('../controllers/crud');
+router.post('/save', crud.save);
+
 module.exports = router;

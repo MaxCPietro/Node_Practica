@@ -31,6 +31,7 @@ app.use('/', rutas);
 //     res.status(404).send('recurso no encontrado 404');
 // })
 
+
 /*abro el puerto de escucha*/
 app.listen(port, () => {   
     console.log(`Servidor corriendo http://localhost:${port}`);

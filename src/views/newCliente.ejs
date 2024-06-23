@@ -13,21 +13,20 @@
         <h1>Agregre un nuevo cliente</h1>
         <form action="/save" method="post">
             <div class="mb-3">
-                <label for="user">Nombre Cliente</label>
-                <input type="text" name="cliente" id="cliente">
+                <label for="cliente">Nombre Cliente</label>
+                <input type="text" name="cliente" id="cliente" class="form-control">
             </div>
-
-            
             <div class="mb-3">
-                <label for="user">Tipo Cliente</label>
-                <select name="tipo_cliente" id="tipo_cliente">
+                <label for="tipo_cliente">Tipo Cliente</label>
+                <select name="tipo_cliente" id="tipo_cliente" class="form-select">
                     <option value="Mayorista">Mayorista</option>
-                    <option value="Distribuidor">distribuidor</option>
+                    <option value="Distribuidor">Distribuidor</option>
                 </select>
             </div>
             <button type="submit" class="btn btn-primary" tabindex="5">Guardar</button>
-            <a href="/cliente" class="btn btn-danger">Cancelar</a>
+            <a href="/cliente" class="btn btn-danger">volver</a>
         </form>
+        
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <%- include("partials/footer") %>
