@@ -4,6 +4,7 @@ const router = express.Router();
 const controladores = require('../controllers/mainController');
 const middlewares = require( '../middleware/indexMiddleware');
 const {conn}  = require("../db/dbconnect");
+//const {formatDate} = require("../utils/formatDate");
 
 router.get('/', controladores.renderHome);
 router.get('/clientes', controladores.renderClientes);
@@ -44,6 +45,10 @@ router.get('/pedidos', async (req, res) => {
     try {
         const [results] = await conn.query('SELECT Pedidos.id,Clientes.nombre AS cliente_id,Vendedores.nombre AS vendedor_id,Pedidos.fecha_pedido,Pedidos.total FROM Pedidos JOIN Clientes ON Pedidos.cliente_id = Clientes.id JOIN Vendedores ON Pedidos.vendedor_id = Vendedores.id;');
         const user = req.session.user;
+            /* // Formatea las fechas
+            results.forEach(result => {
+                result.fecha_pedido = formatDate(result.fecha_pedido);
+            });*/
         res.render('pedidos', { results: results , user});
     } catch (err) {
         console.error('Error executing query:', err.message);
@@ -69,5 +74,20 @@ router.get('/delete/:id', async (req, res) => {
     }
 });
 
+// Ruta para mostrar registros (GET)
+router.get('/cliente', async (req, res) => {
+    try {
+        const [results] = await conn.query('SELECT * FROM Clientes');
+        const user = req.session.user;
+        res.render('cliente', { results: results , user});
+    } catch (err) {
+        console.error('Error executing query:', err.message);
+        res.status(500).send('Internal Server Error')
+    }
+});
 
+//Ruta para insertar clientes (GET)
+router.get('/newCliente', (req, res) => {
+    res.render('newCliente');
+})
 module.exports = router;
