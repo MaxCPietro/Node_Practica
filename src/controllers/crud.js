@@ -14,3 +14,15 @@ exports.save = (req, res) => {
         res.redirect('/cliente');
     });
 };
+
+exports.update = (req, res) => {
+    const { id, nombre, tipo_cliente } = req.body;
+    conn.query('UPDATE Clientes SET ? WHERE id = ?', [{ nombre, tipo_cliente }, id], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err.message);
+            res.status(500).send('Error al actualizar el cliente');
+            return;
+        }
+        res.redirect('/cliente');
+    });
+};

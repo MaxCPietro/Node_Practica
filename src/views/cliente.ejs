@@ -18,7 +18,7 @@
                     <th scope="col">ID</th>
                     <th scope="col">Nombre</th>
                     <th scope="col">Tipo de cliente</th>
-                    <!--th scope="col">Acciones</th-->
+                    <th scope="col">Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -27,10 +27,10 @@
                         <td><%= user.id %></td>
                         <td><%= user.nombre %></td>
                         <td><%= user.tipo_cliente %></td>
-                        <!--td>
-                            <a href="/edit/<%= user.id %>" class="btn btn-outline-warning"><box-icon type='solid' name='edit'></box-icon></a>
-                            <a href="/delete/<%= user.id %>" class="btn btn-outline-danger"><box-icon type='solid' name='trash'></box-icon></a>
-                        </td-->
+                        <td>
+                            <a href="/editCliente/<%= user.id %>" class="btn btn-outline-warning"><box-icon type='solid' name='edit'></box-icon></a>
+                            <a href="/deleteCliente/<%= user.id %>" class="btn btn-outline-danger"><box-icon type='solid' name='trash'></box-icon></a>
+                        </td>
                     </tr>
                 <% }) %>
                 </tbody>

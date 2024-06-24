@@ -74,7 +74,7 @@ router.get('/delete/:id', async (req, res) => {
     }
 });
 
-// Ruta para mostrar registros (GET)
+// Ruta para mostrar clientes (GET)
 router.get('/cliente', async (req, res) => {
     try {
         const [results] = await conn.query('SELECT * FROM Clientes');
@@ -91,7 +91,55 @@ router.get('/newCliente', (req, res) => {
     res.render('newCliente');
 })
 
+
+
+// Ruta para editar clientes (GET)
+router.get('/editCliente/:id', (req, res) => {
+    const id = req.params.id; 
+    conn.query('SELECT * FROM Clientes WHERE id = ?', [id], (err, results) => {
+        if (err) {
+            console.error('Error executing query:', err.message);
+            res.status(500).send('Internal Server Error');
+            return;
+        }
+        res.render('editCliente', { user: results[0] }); // Asegúrate de que la vista sea correcta
+    });
+});
+
+router.post('/deleteCliente/:id', async (req, res) => {
+    const id = req.params.id;
+
+    const connection = await conn.getConnection();
+
+    try {
+        await connection.beginTransaction();
+
+        // Eliminar los registros dependientes en la tabla `Pedidos`
+        await connection.query('DELETE FROM Pedidos WHERE cliente_id = ?', [id]);
+
+        // Ahora eliminar el cliente
+        await connection.query('DELETE FROM Clientes WHERE id = ?', [id]);
+
+        await connection.commit();
+
+        console.log(`Cliente con id ${id} eliminado exitosamente.`);
+        res.redirect('/cliente');
+    } catch (err) {
+        await connection.rollback();
+        console.error('Error executing query:', err.message);
+        res.status(500).send('Internal Server Error');
+    } finally {
+        connection.release();
+    }
+});
+
+
+
+
+
+
 const crud = require('../controllers/crud');
 router.post('/save', crud.save);
+router.post('/update', crud.update);
 
 module.exports = router;
