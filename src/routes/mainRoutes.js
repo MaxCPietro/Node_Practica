@@ -106,12 +106,13 @@ router.get('/editCliente/:id', (req, res) => {
     });
 });
 
-router.post('/deleteCliente/:id', async (req, res) => {
+// Ruta para eliminar cliente (GET)
+router.get('/deleteCliente/:id', async (req, res) => {
     const id = req.params.id;
-
-    const connection = await conn.getConnection();
+    let connection; // Declarar la variable connection fuera del try-catch-finally
 
     try {
+        connection = await conn.getConnection(); // Obtener la conexión
         await connection.beginTransaction();
 
         // Eliminar los registros dependientes en la tabla `Pedidos`
@@ -125,13 +126,20 @@ router.post('/deleteCliente/:id', async (req, res) => {
         console.log(`Cliente con id ${id} eliminado exitosamente.`);
         res.redirect('/cliente');
     } catch (err) {
-        await connection.rollback();
+        if (connection) {
+            await connection.rollback(); // Rollback en caso de error
+        }
         console.error('Error executing query:', err.message);
         res.status(500).send('Internal Server Error');
     } finally {
-        connection.release();
+        if (connection) {
+            connection.release(); // Liberar la conexión
+        }
     }
 });
+
+
+
 
 
 
