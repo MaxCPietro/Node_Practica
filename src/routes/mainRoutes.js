@@ -96,17 +96,30 @@ router.get('/newCliente', (req, res) => {
 
 
 // Ruta para editar clientes (GET)
-router.get('/editCliente/:id', (req, res) => {
-    const id = req.params.id; 
-    conn.query('SELECT * FROM Clientes WHERE id = ?', [id], (err, results) => {
-        if (err) {
-            console.error('Error executing query:', err.message);
-            res.status(500).send('Internal Server Error');
-            return;
+router.get('/editCliente/:id', async (req, res) => {
+    const id = req.params.id;
+    console.log(`ID del cliente a editar: ${id}`);
+
+    try {
+        // Consultar la información del cliente con el ID proporcionado
+        const [results] = await conn.query('SELECT * FROM Clientes WHERE id = ?', [id]);
+
+        // Verificar si el cliente fue encontrado
+        if (results.length === 0) {
+            console.log('Cliente no encontrado');
+            return res.status(404).send('Cliente no encontrado');
         }
-        res.render('editCliente', { user: results[0] }); // Asegúrate de que la vista sea correcta
-    });
+
+        console.log('Datos del cliente:', results[0]);
+
+        // Renderizar la vista de edición con los datos del cliente
+        res.render('editCliente', { user: results[0] });
+    } catch (err) {
+        console.error('Error ejecutando la consulta:', err.message);
+        res.status(500).send('Error interno del servidor');
+    }
 });
+
 
 // Ruta para eliminar cliente (GET)
 router.get('/deleteCliente/:id', async (req, res) => {
