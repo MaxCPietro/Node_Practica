@@ -93,6 +93,8 @@ router.get('/newCliente', (req, res) => {
 
 
 
+
+
 // Ruta para editar clientes (GET)
 router.get('/editCliente/:id', (req, res) => {
     const id = req.params.id; 
@@ -114,6 +116,14 @@ router.get('/deleteCliente/:id', async (req, res) => {
     try {
         connection = await conn.getConnection(); // Obtener la conexión
         await connection.beginTransaction();
+
+        // Obtener todos los pedidos del cliente
+        const [pedidos] = await connection.query('SELECT id FROM Pedidos WHERE cliente_id = ?', [id]);
+
+        // Eliminar los registros dependientes en la tabla `DetallePedidos` para cada pedido
+        for (const pedido of pedidos) {
+            await connection.query('DELETE FROM DetallePedidos WHERE pedido_id = ?', [pedido.id]);
+        }
 
         // Eliminar los registros dependientes en la tabla `Pedidos`
         await connection.query('DELETE FROM Pedidos WHERE cliente_id = ?', [id]);
@@ -137,6 +147,7 @@ router.get('/deleteCliente/:id', async (req, res) => {
         }
     }
 });
+
 
 
 
