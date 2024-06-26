@@ -30,8 +30,21 @@
                         <td><%= user.fecha_pedido %></td>
                         <td>$ <%= user.total %></td>
                         <td>
-                            <a href="/pedidos<%= user.id %>" class="btn btn-outline-warning"><box-icon type='solid' name='cart'></box-icon></a>
-                            <a href="/delete/<%= user.id %>" class="btn btn-outline-danger"><box-icon type='solid' name='trash'></box-icon></a>
+                            <form action="/pedidos<%= user.id %>" method="GET" class="d-inline">
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    Ver
+                                </button>
+                            </form>
+                            
+                            <form
+                            action="/pedidos/<%= user.id %>?_method=DELETE"
+                            method="POST"
+                            style="display: inline"
+                          >
+                            <button type="submit" class="btn btn-danger btn-sm">
+                              Borrar
+                            </button>
+                          </form>
                         </td>
                     </tr>
                 <% }) %>

@@ -31,7 +31,7 @@
             <a class="nav-link" href="/productos">Productos</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/clientes">Clientes</a>
+            <a class="nav-link" href="/clientesinfo">Clientes</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/contacto">Contacto</a>
@@ -39,34 +39,34 @@
           <li class="nav-item">
             <a class="nav-link" href="/ubicacion">Ubicación</a>
           </li>
-          
           <% if (user && user.rol_id === 1) { %>
             <li class="nav-item">
-              <a style="color: goldenrod;" class="nav-link" href="/adminuser">Gs. Usuarios</a>
+              <a class=" btn btn-outline-primary admin-link" href="/adminuser">Gs. Usuarios</a>
             </li>
             <li class="nav-item">
-              <a style="color: goldenrod;" class="nav-link" href="/adminProduct">Gs. Productos</a>
+              <a class=" btn btn-outline-primary admin-link" href="/adminProduct">Gs. Productos</a>
             </li>
             <li class="nav-item">
-              <a style="color: goldenrod;" class="nav-link" href="/cliente">Gs. Clientes</a>
+              <a class=" btn btn-outline-primary admin-link" href="/adminClient">Gs. Clientes</a>
             </li>
           <% } %>
           <% if (user && (user.rol_id === 1 || user.rol_id === 2)) { %>
             <li class="nav-item">
-              <a style="color: goldenrod;" class="nav-link" href="/neworder">Gs. Ventas</a>
+              <a class=" btn btn-outline-primary admin-link" href="/neworder">Gs. Ventas</a>
             </li>
             <li class="nav-item">
-              <a style="color: goldenrod;" class="nav-link" href="/pedidos">Gs. Pedidos</a>
+              <a class=" btn btn-outline-primary admin-link" href="/pedidos">Gs. Pedidos</a>
             </li>
           <% } %>
         </ul>
-        <% if (user) { %>
-          <p class="nav-link">Bienvenido, <%= user.nombre %>!</p>
-          <a class="nav-link" href="/logout">Logout</a>
-        <% } else { %>
-          <a class="nav-link" href="/login">Login</a>
-        <% } %>
-        
+        <div class="d-flex align-items-center">
+          <% if (user) { %>
+            <p class="nav-link mb-0">Bienvenido, <%= user.nombre %>!</p>
+            <a class="btn btn-outline-primary ms-2" href="/logout">Logout</a>
+          <% } else { %>
+            <a class="btn btn-outline-primary ms-2" href="/login">Login</a>
+          <% } %>
+        </div>
       </div>
     </div>
   </nav>

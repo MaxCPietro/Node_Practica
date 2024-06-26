@@ -10,8 +10,8 @@
         <h2 class="text-center mt-5">Gestión de Usuarios</h2>
         <div class="container">
           <form id="newUserForm" action="/users" method="POST">
-            <div class="formCrear">
-              <div class="col-md-4 mb-3">
+            <div class="row g-1">
+              <div class="col-md-4">
                 <label for="newUserName" class="form-label">Nombre</label>
                 <input
                   type="text"
@@ -21,7 +21,7 @@
                   required
                 />
               </div>
-              <div class="col-md-4 mb-3">
+              <div class="col-md-4">
                 <label for="newUserPassword" class="form-label">Contraseña</label>
                 <input
                   type="password"
@@ -31,18 +31,22 @@
                   required
                 />
               </div>
-              <div class="col-md-4 mb-3">
+              <div class="col-md-4">
                 <label for="newUserRole" class="form-label">Rol</label>
-                <select id="newUserRole" name="rol" required>
+                <select id="newUserRole" name="rol" class="form-control" required>
                   <% rol.forEach(function(role) { %>
                     <option value="<%= role.id %>"> <%= role.rol %> </option>
                   <% }); %>
                 </select>
               </div>
-              <button type="submit" class="btn btn-primary">Crear</button>
+              <div class="col-12 mt-3 text-center">
+                <button type="submit" class="btn btn-primary">Crear</button>
+              </div>
             </div>
           </form>
         </div>
+        
+        
         <table class="table table-striped mt-3">
           <thead>
             <tr>

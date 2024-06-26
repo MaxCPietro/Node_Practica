@@ -1,16 +1,19 @@
 CREATE DATABASE IF NOT EXISTS VinosDB;
 USE VinosDB;
--- Tabla de Vendedores
+
+-- Tabla de Roles
 CREATE TABLE rol (
     id INT AUTO_INCREMENT PRIMARY KEY,
     rol VARCHAR(255) NOT NULL  
 );
+
+-- Tabla de Vendedores
 CREATE TABLE Vendedores (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,
     rol_id INT NOT NULL,  
-    FOREIGN KEY (rol_id) REFERENCES rol(id)
+    FOREIGN KEY (rol_id) REFERENCES rol(id) ON DELETE CASCADE
 );
 
 -- Tabla de Clientes
@@ -18,7 +21,7 @@ CREATE TABLE Clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(255) NOT NULL,
     telefono VARCHAR(50),
-    direccion VARCHAR(255)
+    direccion VARCHAR(255),
     tipo_cliente VARCHAR(20) NOT NULL
 );
 
@@ -38,8 +41,8 @@ CREATE TABLE Pedidos (
     vendedor_id INT NOT NULL,
     fecha_pedido TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     total DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (cliente_id) REFERENCES Clientes(id),
-    FOREIGN KEY (vendedor_id) REFERENCES Vendedores(id)
+    FOREIGN KEY (cliente_id) REFERENCES Clientes(id) ON DELETE CASCADE,
+    FOREIGN KEY (vendedor_id) REFERENCES Vendedores(id) ON DELETE CASCADE
 );
 
 -- Tabla de DetallePedidos
@@ -50,7 +53,6 @@ CREATE TABLE DetallePedidos (
     cantidad INT NOT NULL,
     precio_unitario DECIMAL(10, 2) NOT NULL,
     subtotal DECIMAL(10, 2) NOT NULL,
-    FOREIGN KEY (pedido_id) REFERENCES Pedidos(id),
-    FOREIGN KEY (producto_id) REFERENCES Productos(id)
+    FOREIGN KEY (pedido_id) REFERENCES Pedidos(id) ON DELETE CASCADE,
+    FOREIGN KEY (producto_id) REFERENCES Productos(id) ON DELETE CASCADE
 );
-

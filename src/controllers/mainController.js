@@ -327,8 +327,53 @@ renderPedido: async (req, res) => {
       console.error("Error al obtener los detalles del pedido:", error);
       res.status(500).send("Error interno del servidor");
   }
-}
+}, 
+todosLosPedidos: async (req, res) => {
+  try {
+      const [results] = await conn.query(`
+          SELECT Pedidos.id,
+                 Clientes.nombre AS cliente_id,
+                 Vendedores.nombre AS vendedor_id,
+                 Pedidos.fecha_pedido,
+                 Pedidos.total
+          FROM Pedidos
+          JOIN Clientes ON Pedidos.cliente_id = Clientes.id
+          JOIN Vendedores ON Pedidos.vendedor_id = Vendedores.id;
+      `);
 
+      // Función para formatear la fecha en DD/MM/YYYY
+      function formatearFecha(fecha) {
+          const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+          return fecha.toLocaleDateString('es-AR', options);
+      }
+
+      // Iterar sobre los resultados y formatear la fecha
+      results.forEach(pedido => {
+          pedido.fecha_pedido = formatearFecha(new Date(pedido.fecha_pedido));
+      });
+
+      const user = req.session.user;
+      
+      res.render('pedidos', { results, user });
+  } catch (err) {
+      console.error('Error executing query:', err.message);
+      res.status(500).send('Internal Server Error');
+  }
+},
+eliminarPedido: async (req, res) => {
+  const id = req.params.id;
+  console.log(id); // Verifica que el ID esté siendo recibido correctamente
+  try {
+      // Eliminar el registro en Pedidos
+      await conn.query('DELETE FROM Pedidos WHERE id = ?', [id]);
+      
+      // Redirigir a la lista de pedidos después de eliminar
+      res.redirect('/pedidos'); 
+  } catch (err) {
+      console.error('Error executing query:', err.message);
+      res.status(500).send('Internal Server Error');
+  }
+}
 
 
 

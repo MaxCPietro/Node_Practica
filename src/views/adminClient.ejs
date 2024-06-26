@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <%- include("partials/head") %>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://unpkg.com/boxicons@2.1.4/dist/boxicons.js"></script>
+    <title>Gestión de Clientes</title>
+</head>
+<body>
+    <%- include("partials/header") %>
+    <main>
+        <div class="container">
+            <h2 class="text-center mt-5">Gestión de Clientes</h2>
+            <div class="container">
+                <form id="newClientForm" action="/clientes" method="POST">
+                    <div class="formCrear">
+                        <div class="col-md-4 mb-3">
+                            <label for="newClientName" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="newClientName" name="nombre" required />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="newClientPhone" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="newClientPhone" name="telefono" required />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="newClientAddress" class="form-label">Dirección</label>
+                            <input type="text" class="form-control" id="newClientAddress" name="direccion" required />
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <label for="newClientType" class="form-label">Tipo de Cliente</label>
+                            <select class="form-control" id="newClientType" name="tipo_cliente" required>
+                                <option value="mayorista">Mayorista</option>
+                                <option value="minorista">Minorista</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Crear</button>
+                    </div>
+                </form>
+            </div>
+            <table class="table table-striped mt-3">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Teléfono</th>
+                        <th>Dirección</th>
+                        <th>Tipo de Cliente</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% clients.forEach(client => { %>
+                    <tr>
+                        <td><%= client.nombre %></td>
+                        <td><%= client.telefono %></td>
+                        <td><%= client.direccion %></td>
+                        <td><%= client.tipo_cliente %></td>
+                        <td>
+                            <button class="btn btn-warning btn-sm" onclick="editClient('<%= client.id %>', '<%= client.nombre %>', '<%= client.telefono %>', '<%= client.direccion %>', '<%= client.tipo_cliente %>')">Modificar</button>
+                            <form action="/clientes/<%= client.id %>?_method=DELETE" method="POST" style="display: inline">
+                                <button type="submit" class="btn btn-danger btn-sm">Borrar</button>
+                            </form>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="modal fade" id="editClientModal" tabindex="-1" aria-labelledby="editClientModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="editClientModalLabel">Modificar Cliente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <form id="editClientForm" action="/clientes" method="POST">
+                            <input type="hidden" id="clientId" name="id" />
+                            <div class="mb-3">
+                                <label for="clientName" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="clientName" name="nombre" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="clientPhone" class="form-label">Teléfono</label>
+                                <input type="text" class="form-control" id="clientPhone" name="telefono" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="clientAddress" class="form-label">Dirección</label>
+                                <input type="text" class="form-control" id="clientAddress" name="direccion" required />
+                            </div>
+                            <div class="mb-3">
+                                <label for="clientType" class="form-label">Tipo de Cliente</label>
+                                <select class="form-control" id="clientType" name="tipo_cliente" required>
+                                    <option value="mayorista">Mayorista</option>
+                                    <option value="minorista">Minorista</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Guardar Cambios</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <%- include("partials/footer") %>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    <script>
+        function editClient(id, nombre, telefono, direccion, tipo_cliente) {
+            document.getElementById("clientId").value = id;
+            document.getElementById("clientName").value = nombre;
+            document.getElementById("clientPhone").value = telefono;
+            document.getElementById("clientAddress").value = direccion;
+            document.getElementById("clientType").value = tipo_cliente;
+            document.getElementById("editClientForm").action = "/clientes/" + id + "?_method=PUT";
+            var editClientModal = new bootstrap.Modal(document.getElementById("editClientModal"));
+            editClientModal.show();
+        }
+    </script>
+</body>
+</html>
