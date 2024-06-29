@@ -10,31 +10,35 @@
     <%- include("partials/header") %>
     <main>
         <div class="container">
-            <h2 class="text-center mt-5">Gestión de Clientes</h2>
+            <h2 class="text-center mt-1">Gestión de Clientes</h2>
             <div class="container">
                 <form id="newClientForm" action="/clientes" method="POST">
-                    <div class="formCrear">
-                        <div class="col-md-4 mb-3">
-                            <label for="newClientName" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="newClientName" name="nombre" required />
+                    <form class="formCrear">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="newClientName" class="form-label mb-1">Nombre</label>
+                                <input type="text" class="form-control mb-1" id="newClientName" name="nombre" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="newClientPhone" class="form-label mb-1">Teléfono</label>
+                                <input type="text" class="form-control mb-1" id="newClientPhone" name="telefono" required />
+                            </div>
                         </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="newClientPhone" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="newClientPhone" name="telefono" required />
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="newClientAddress" class="form-label">Dirección</label>
-                            <input type="text" class="form-control" id="newClientAddress" name="direccion" required />
-                        </div>
-                        <div class="col-md-4 mb-3">
-                            <label for="newClientType" class="form-label">Tipo de Cliente</label>
-                            <select class="form-control" id="newClientType" name="tipo_cliente" required>
-                                <option value="mayorista">Mayorista</option>
-                                <option value="minorista">Minorista</option>
-                            </select>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="newClientAddress" class="form-label mb-1">Dirección</label>
+                                <input type="text" class="form-control mb-1" id="newClientAddress" name="direccion" required />
+                            </div>
+                            <div class="col-md-6">
+                                <label for="newClientType" class="form-label mb-1">Tipo de Cliente</label>
+                                <select class="form-control mb-1" id="newClientType" name="tipo_cliente" required>
+                                    <option value="mayorista">Mayorista</option>
+                                    <option value="minorista">Minorista</option>
+                                </select>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary">Crear</button>
-                    </div>
+                    </form>
                 </form>
             </div>
             <table class="table table-striped mt-3">

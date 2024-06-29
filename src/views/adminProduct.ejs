@@ -7,54 +7,61 @@
 
     <main>
       <div class="container">
-        <h2 class="text-center mt-5">Gestión de Productos</h2>
+        <h2 class="text-center mt-1">Gestión de Productos</h2>
         <div class="container">
           <form id="newProductForm" action="/products" method="POST">
             <div class="formCrear">
-              <div class="col-md-4 mb-3">
-                <label for="newProductName" class="form-label">Nombre</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="newProductName"
-                  name="nombre"
-                  required
-                />
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="newProductName" class="form-label">Nombre</label>
+                  <input
+                    type="text"
+                    class="form-control mb-1"
+                    id="newProductName"
+                    name="nombre"
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="newProductPrice" class="form-label">Precio</label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    class="form-control mb-1"
+                    id="newProductPrice"
+                    name="precio"
+                    required
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="newProductStock" class="form-label">Stock</label>
+                  <input
+                    type="number"
+                    class="form-control mb-1"
+                    id="newProductStock"
+                    name="stock"
+                    required
+                  />
+                </div>
               </div>
-              <div class="col-md-4 mb-3">
-                <label for="newProductDescription" class="form-label">Descripción</label>
-                <textarea
-                  class="form-control"
-                  id="newProductDescription"
-                  name="descripcion"
-                  required
-                ></textarea>
+              <div class="row mt-1">
+                <div class="col-md-12">
+                  <label for="newProductDescription" class="form-label"
+                    >Descripción</label
+                  >
+                  <textarea
+                    class="form-control mb-1"
+                    id="newProductDescription"
+                    name="descripcion"
+                    required
+                  ></textarea>
+                </div>
               </div>
-              <div class="col-md-4 mb-3">
-                <label for="newProductPrice" class="form-label">Precio</label>
-                <input
-                  type="number"
-                  step="0.01"
-                  class="form-control"
-                  id="newProductPrice"
-                  name="precio"
-                  required
-                />
-              </div>
-              <div class="col-md-4 mb-3">
-                <label for="newProductStock" class="form-label">Stock</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="newProductStock"
-                  name="stock"
-                  required
-                />
-              </div>
-              <button type="submit" class="btn btn-primary">Crear</button>
+              <button type="submit" class="btn btn-primary mt-1">Crear</button>
             </div>
           </form>
         </div>
+
         <table class="table table-striped mt-3">
           <thead>
             <tr>
@@ -129,7 +136,9 @@
                   />
                 </div>
                 <div class="mb-3">
-                  <label for="productDescription" class="form-label">Descripción</label>
+                  <label for="productDescription" class="form-label"
+                    >Descripción</label
+                  >
                   <textarea
                     class="form-control"
                     id="productDescription"
