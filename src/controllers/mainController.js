@@ -355,7 +355,7 @@ todosLosPedidos: async (req, res) => {
 },
 eliminarPedido: async (req, res) => {
   const id = req.params.id;
-  console.log(id); // Verifica que el ID esté siendo recibido correctamente
+
   try {
       // Eliminar el registro en Pedidos
       await conn.query('DELETE FROM Pedidos WHERE id = ?', [id]);
