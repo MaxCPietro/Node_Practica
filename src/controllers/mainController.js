@@ -1,37 +1,42 @@
-const { conn } = require("../db/dbconnect");
-
 require("dotenv").config();
+const { conn } = require("../db/dbconnect");
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+const secret = process.env.JWT_SECRET;
+
+
 const saltRounds = 10;
-const secretHash = process.env.SECRETHASH;
+const user = {
+};
 
 module.exports = {
   renderHome: (req, res) => {
-    const user = req.session.user;
     
+    const { user } = req;
     res.render("home", { user });
   },
   renderClientes: (req, res) => {
-    const user = req.session.user;
+     const { user } = req;
     res.render("clientes", { user });
   },
   renderProductos: (req, res) => {
-    const user = req.session.user;
+     const { user } = req;
     res.render("productos", { user });
   },
   renderContacto: (req, res) => {
-    const user = req.session.user;
+     const { user } = req;
     res.render("contacto", { user });
   },
   renderQuienessomos: (req, res) => {
-    const user = req.session.user;
+     const { user } = req;
     res.render("quienessomos", { user });
   },
   renderUbicacion: (req, res) => {
-    const user = req.session.user;
+     const { user } = req;
     res.render("ubicacion", { user });
   },
   renderLogin: (req, res) => {
-    const user = req.session.user;
+     const { user } = req;
     res.render("login", { user });
   },
   //login
@@ -42,44 +47,38 @@ module.exports = {
         `SELECT * FROM Vendedores WHERE nombre = ?`,
         [nombre]
       );
-     
+
       if (user.length === 0) {
         return res.status(401).send("Nombre o contraseña incorrectos.");
       }
-      const validPassword = (req.body.password === user[0].password)
-       
-    
-   
+
+      const validPassword = bcrypt.compareSync(password, user[0].password);
       if (!validPassword) {
         return res.status(401).send("Nombre o contraseña incorrectos.");
       }
-     
-      req.session.user = {
-        id: user[0].id,
-        nombre: user[0].nombre,
-        rol_id: user[0].rol_id,
-      };
-      res.redirect("/");
+
+      const token = jwt.sign(
+        { id: user[0].id, nombre: user[0].nombre, rol_id: user[0].rol_id },
+        secret,
+        { expiresIn: '1h' }
+      );
+
+      res.cookie('token', token, { httpOnly: true });
+      res.redirect('/');
     } catch (error) {
       console.error(error);
       res.status(500).send("Error al iniciar sesión.");
     }
   },
+
   logout: (req, res) => {
-    res.clearCookie("connect.sid");
-   
-    req.session.destroy((err) => {
-      if (err) {
-        console.error("Error al cerrar sesión:", err);
-        return res.status(500).json({ message: "Internal Server Error" });
-      } else {
-        res.redirect("/login");
-      }
-    });
+    res.clearCookie('token');
+    res.redirect('/login');
   },
+  
   // crud y render vendedores
   renderAdminUser: async (req, res) => {
-    const user = req.session.user;
+     const { user } = req;
     try {
       const [users] = await conn.query(`
         SELECT v.id, v.nombre, v.rol_id, r.rol 
@@ -95,30 +94,23 @@ module.exports = {
   },
   crearUsuario: async (req, res) => {
     try {
-      
-      const [nombre, password, rol] = [
-        req.body.nombre,
-        req.body.password,
-        req.body.rol,
-      ];
+      const { nombre, password, rol } = req.body;
+      const hashedPassword = bcrypt.hashSync(password, saltRounds);
       const sql = `INSERT INTO Vendedores (nombre, password, rol_id) VALUES (?,?,?);`;
-      await conn.query(sql, [nombre, password, rol]);
+      await conn.query(sql, [nombre, hashedPassword, rol]);
       res.redirect("/adminUser");
     } catch (error) {
       console.error(error);
       res.status(500).send("Error al crear usuario");
     }
   },
+
   actualizarUsuario: async (req, res) => {
     try {
-      
+      const { nombre, password, rol } = req.body;
+      const hashedPassword = bcrypt.hashSync(password, saltRounds);
       const sql = `UPDATE Vendedores SET nombre = ?, password = ?, rol_id = ? WHERE id = ?;`;
-      await conn.query(sql, [
-        req.body.nombre,
-        req.body.password,
-        req.body.rol,
-        req.params.id,
-      ]);
+      await conn.query(sql, [nombre, hashedPassword, rol, req.params.id]);
       res.redirect("/adminUser");
     } catch (error) {
       console.error(error);
@@ -138,7 +130,7 @@ module.exports = {
 
   // crud y render productos
   renderAdminProducto: async (req, res) => {
-    const user = req.session.user;
+     const { user } = req;
     try {
       const [products] = await conn.query(`SELECT * FROM Productos`);
       res.render("adminProduct", { products, user });
@@ -192,7 +184,7 @@ module.exports = {
 
   // crud y render clientes
   renderAdminCliente: async (req, res) => {
-    const user = req.session.user;
+     const { user } = req;
     try {
       const [clients] = await conn.query(`SELECT * FROM Clientes`);
       res.render("adminClient", { clients, user });
@@ -205,11 +197,12 @@ module.exports = {
   },
   crearCliente: async (req, res) => {
     try {
-      const sql = `INSERT INTO Clientes (nombre, direccion, telefono) VALUES (?,?,?);`;
+      const sql = `INSERT INTO Clientes (nombre, direccion, telefono, tipo_cliente) VALUES (?,?,?,?);`;
       await conn.query(sql, [
         req.body.nombre,
         req.body.direccion,
         req.body.telefono,
+        req.body.tipo_cliente
       ]);
       res.redirect("/adminClient");
     } catch (error) {
@@ -246,7 +239,7 @@ module.exports = {
     try {
       const [clients] = await conn.query(`SELECT id, nombre FROM Clientes`);
       const [products] = await conn.query(`SELECT id, nombre, precio, stock FROM Productos`);
-      const user = req.session.user; // Obtener el ID del vendedor desde la sesión
+       const { user } = req; // Obtener el ID del vendedor desde la sesión
       res.render("newOrder", { clients, products, user });
     } catch (error) {
       console.error("Error al obtener datos:", error);
@@ -316,7 +309,7 @@ renderPedido: async (req, res) => {
           [pedido_id]
       );
 
-      const user = req.session.user;
+       const { user } = req;
       // Renderizar la vista con los detalles del pedido, nombre del vendedor y datos del cliente
       res.render("orderDetails", { 
           pedido_id, 
@@ -352,7 +345,7 @@ todosLosPedidos: async (req, res) => {
           pedido.fecha_pedido = formatearFecha(new Date(pedido.fecha_pedido));
       });
 
-      const user = req.session.user;
+       const { user } = req;
       
       res.render('pedidos', { results, user });
   } catch (err) {

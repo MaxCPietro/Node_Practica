@@ -79,75 +79,74 @@
     </main>
     <%- include("partials/footer") %>
     <script>
-      document.addEventListener("DOMContentLoaded", function () {
-        const checkboxes = document.querySelectorAll(
-          '#productos input[type="checkbox"]'
+     document.addEventListener("DOMContentLoaded", function () {
+  const checkboxes = document.querySelectorAll(
+    '#productos input[type="checkbox"]'
+  );
+  const cantidadInputs = document.querySelectorAll(".cantidad");
+
+  checkboxes.forEach((checkbox) => {
+    checkbox.addEventListener("change", function () {
+      const cantidadInput = document.querySelector(
+        `input[name="cantidad_${checkbox.value}"]`
+      );
+      cantidadInput.disabled = !checkbox.checked;
+      if (!checkbox.checked) {
+        cantidadInput.value = "";
+      }
+      updateTotals();
+    });
+  });
+
+  cantidadInputs.forEach((input) => {
+    input.addEventListener("input", updateTotals);
+  });
+
+  function updateTotals() {
+    let totalProductos = 0;
+    let totalPrecio = 0;
+    checkboxes.forEach((checkbox) => {
+      if (checkbox.checked) {
+        const cantidadInput = document.querySelector(
+          `input[name="cantidad_${checkbox.value}"]`
         );
-        const cantidadInputs = document.querySelectorAll(".cantidad");
+        const cantidad = parseInt(cantidadInput.value) || 0;
+        const precioUnitario = parseFloat(checkbox.getAttribute("data-precio"));
+        totalProductos += cantidad;
+        totalPrecio += cantidad * precioUnitario;
+      }
+    });
 
-        checkboxes.forEach((checkbox) => {
-          checkbox.addEventListener("change", function () {
-            const cantidadInput = document.querySelector(
-              `input[name="cantidad_${checkbox.value}"]`
-            );
-            cantidadInput.disabled = !checkbox.checked;
-            if (!checkbox.checked) {
-              cantidadInput.value = "";
-            }
-            updateTotals();
+    document.getElementById("totalProductos").value = totalProductos;
+    document.getElementById("totalPrecio").value = totalPrecio.toFixed(2);
+  }
+
+  document
+    .getElementById("orderForm")
+    .addEventListener("submit", function (event) {
+      const productosSeleccionados = [];
+      checkboxes.forEach((checkbox) => {
+        if (checkbox.checked) {
+          const producto_id = checkbox.value;
+          const cantidad = document.querySelector(
+            `input[name="cantidad_${producto_id}"]`
+          ).value;
+          const precio_unitario = checkbox.getAttribute("data-precio");
+          productosSeleccionados.push({
+            producto_id,
+            cantidad,
+            precio_unitario,
           });
-        });
-
-        cantidadInputs.forEach((input) => {
-          input.addEventListener("input", updateTotals);
-        });
-
-        function updateTotals() {
-          let totalProductos = 0;
-          let totalPrecio = 0;
-          checkboxes.forEach((checkbox) => {
-            if (checkbox.checked) {
-              const cantidadInput = document.querySelector(
-                `input[name="cantidad_${checkbox.value}"]`
-              );
-              const cantidad = parseInt(cantidadInput.value) || 0;
-              const precioUnitario = parseFloat(
-                checkbox.getAttribute("data-precio")
-              );
-              totalProductos += cantidad;
-              totalPrecio += cantidad * precioUnitario;
-            }
-          });
-
-          document.getElementById("totalProductos").value = totalProductos;
-          document.getElementById("totalPrecio").value = totalPrecio.toFixed(2);
         }
-
-        document
-          .getElementById("orderForm")
-          .addEventListener("submit", function (event) {
-            const productosSeleccionados = [];
-            checkboxes.forEach((checkbox) => {
-              if (checkbox.checked) {
-                const producto_id = checkbox.value;
-                const cantidad = document.querySelector(
-                  `input[name="cantidad_${producto_id}"]`
-                ).value;
-                const precio_unitario = checkbox.getAttribute("data-precio");
-                productosSeleccionados.push({
-                  producto_id,
-                  cantidad,
-                  precio_unitario,
-                });
-              }
-            });
-            const hiddenField = document.createElement("input");
-            hiddenField.type = "hidden";
-            hiddenField.name = "productos";
-            hiddenField.value = JSON.stringify(productosSeleccionados);
-            this.appendChild(hiddenField);
-          });
       });
+      const hiddenField = document.createElement("input");
+      hiddenField.type = "hidden";
+      hiddenField.name = "productos";
+      hiddenField.value = JSON.stringify(productosSeleccionados);
+      this.appendChild(hiddenField);
+    });
+});
+
     </script>
   </body>
 </html>

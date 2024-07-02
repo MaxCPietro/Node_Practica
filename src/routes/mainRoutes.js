@@ -1,8 +1,11 @@
 const express = require('express');
 const router = express.Router();
-//const path = require('path');
+
 const controladores = require('../controllers/mainController');
 const middlewares = require( '../middleware/indexMiddleware');
+
+
+
 
 
 router.get('/', controladores.renderHome);
