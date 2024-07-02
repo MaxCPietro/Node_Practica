@@ -24,7 +24,7 @@ Este proyecto es una página y sistema web de la __bodega y distribudiora de vin
 6. Ubicación: Frames con las locaciones de la empresa tanto en Buenos Aires como en Mendoza.
 
 ### Back-end
-1. Sistema básico de autenticación. Perfil: Administrador (admin, 123456) y vendedor (vendedor, 123456)
+1. Sistema básico de autenticación usando el módulo bcrypts. Perfil: Administrador (admin, 123456) y vendedor (vendedor, 123456)
 2. Gestión de pedidos. lo cual incluye: Gestión de usuarios, gestión de productos, gestión de ventas y gestión de clientes.
 
 ## Especificaciones Técnicas.
@@ -50,4 +50,4 @@ Este proyecto es una página y sistema web de la __bodega y distribudiora de vin
 [Bodega y Distribuidora Vientos de Altura](https://maxcpietro.github.io/Distibuidora_de_Vino/pages/productos.html)
 
 ### Back-end
-*falta*
+[Backend Gs de Pedidos. Bodega Vientos de Altura](https://node-practica-maxs-projects-832fe84c.vercel.app/)
