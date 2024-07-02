@@ -1,10 +1,18 @@
 const mysql = require('mysql2')
 
 const pool = mysql.createPool({
-    host: 'bvm9w5jfvpbdovjwwcoe-mysql.services.clever-cloud.com',
-    user: 'u7chsuxpquauaocc',
-    password: 'yZznY8t0L1jZakDFTgWD',
-    database: 'bvm9w5jfvpbdovjwwcoe',
+    // host: 'bvm9w5jfvpbdovjwwcoe-mysql.services.clever-cloud.com',
+    // user: 'u7chsuxpquauaocc',
+    // password: 'yZznY8t0L1jZakDFTgWD',
+    // database: 'bvm9w5jfvpbdovjwwcoe',
+    // port: 3306,
+    // waitForConnections: true,
+    // connectionLimit: 10,
+    // queueLimit: 0,
+    host: 'sql10.freesqldatabase.com',
+    user: 'sql10717585',
+    password: 'TCwzF2kccH',
+    database: 'sql10717585',
     port: 3306,
     waitForConnections: true,
     connectionLimit: 10,
