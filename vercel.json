@@ -2,8 +2,8 @@
   "version": 2,
   "env": {
     "PORT": "8080",
-    "SESSION_SECRET": "sessionsecret"
-    "SECRETHASH": "clavesecreta"
+    "SESSION_SECRET": "sessionsecret",
+    "SECRETHASH": "clavesecreta",
     "JWT_SECRET": "tokenjwt"
 
   },
